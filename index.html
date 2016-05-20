@@ -1,60 +1,78 @@
 <!DOCTYPE html>
 <html>
-		<head>
-				<title> The Pyschic Game </title>
-		</head>
+<head>
+    <title> The Psychic Game </title>
+</head>
 <body>
 
-					<div id= "game">
-						<h1> Guess what letter I am thinking of </h1>
-					</div>
+<h1> The Psychic Game </h1>
 
-		<script type="text/javascript">
+<div id= "game">
+            <h2> Guess what letter I am thinking of </h2>
+            <h2> wins: 0 </h2>
+            <h2> losses: 0 </h2>
+            <h2> guesses left: 9 </h2>
+            <h2> your guesses so far: </h2>
+</div>
 
+<script type="text/javascript">
 
-/* Set the computer choices. */
-	var computerChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    /*Step 1: How to activate the key commands and then
+    define the variables.
 
-	/*Declare the tallies to zero */
-	var wins = 0;
-	var losses = 0;
+    Step 2: For userGuess, we take in the input from event
+    For computerGuess, it is randomized from
+    computerChoices*/
+
+    /* Set the computer choices. */
+    var computerChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+    /*Declare the tallies to zero */
+    var wins = 0;
+    var losses = 0;
+    var guesses = 9;
+    var arr = [];
+
 
 /*Records the keypress and then sets it to the user press. */
+/* Sets the computer to the random numbers., */
+    var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-	document.onkeyup = function(event) {
+    document.onkeyup = function(event) {
 
-	var userGuess = String.fromCharCode(event.keyCode);
+    var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
-/* Sets the computer to the random numbers.*/
-	var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-
-
-	var guesses = 0;  /* In order to start the third line for guesses, ahould i make this userGuess or another variable?? */
-	function guessProcess () {
-	
-	var guess = document.getElementById("guess").value;
-			guesses++;
-		if (guesses <= 9) {
-			if (guess == computerGuess) {
-					wins++;
-					} else {
-					losses ++;
-					}
-			}
-
-			//Taking the tallies and displaying them in HTML
-			var html = "<p> Guess what letter I am thinking of </p>" +
-			"<p> wins: " + wins + "</p>" +
-			"<p> losses: " + losses + "</p>" +
-			"<p> guesses left: " + guessesleft + "</p>";
-			
+				arr.push(userGuess);
+				guesses--;
+                if (userGuess == computerGuess) {
+			        wins++; guesses = 9;
+			        computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+			        arr = [];
+			    }
+			    if (guesses <= 0) {
+					losses++; guesses = 9;
+					computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+					arr = [];
+			    }
 
 
-			// Placing the html in to the game id.
-	document.querySelector('#game').innerHTML = html;
 
-		
-	}
+            //Taking the tallies and displaying them in HTML
+
+            var html = "<p> Guess what letter I am thinking of </p>" +
+            "<p> wins: " + wins + "</p>" +
+            "<p> losses: " + losses + "</p>" +
+            "<p> guesses left: " + guesses + "</p>" +
+            "<p> Your guesses so far: " + arr + "</p>";
+
+            // Placing the html in to the game id.
+
+
+
+
+    document.querySelector('#game').innerHTML = html;
+
+    }
 
 </script>
 </body>
